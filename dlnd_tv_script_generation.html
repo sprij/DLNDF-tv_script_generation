@@ -12261,7 +12261,7 @@ Barney_Gumble: Yeah, you should only drink to enhance your social skills.
     <span class="n">drop</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">contrib</span><span class="o">.</span><span class="n">rnn</span><span class="o">.</span><span class="n">DropoutWrapper</span><span class="p">(</span><span class="n">lstm</span><span class="p">,</span> <span class="n">output_keep_prob</span><span class="o">=</span><span class="n">keep_prob</span><span class="p">)</span>
     
     <span class="c1"># Stack up multiple LSTM layers</span>
-    <span class="n">lstm_layers</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="n">lstm_layers</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="n">cell</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">contrib</span><span class="o">.</span><span class="n">rnn</span><span class="o">.</span><span class="n">MultiRNNCell</span><span class="p">([</span><span class="n">drop</span><span class="p">]</span> <span class="o">*</span> <span class="n">lstm_layers</span><span class="p">)</span>
     
     <span class="n">initial_state</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="n">cell</span><span class="o">.</span><span class="n">zero_state</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span> <span class="s1">&#39;initial_state&#39;</span><span class="p">)</span>
@@ -12444,7 +12444,7 @@ Barney_Gumble: Yeah, you should only drink to enhance your social skills.
 <span class="sd">    :param embed_dim: Number of embedding dimensions</span>
 <span class="sd">    :return: Tuple (Logits, FinalState)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">embed</span> <span class="o">=</span> <span class="n">get_embed</span><span class="p">(</span><span class="n">input_data</span><span class="p">,</span> <span class="n">vocab_size</span><span class="p">,</span> <span class="n">rnn_size</span><span class="p">)</span>
+    <span class="n">embed</span> <span class="o">=</span> <span class="n">get_embed</span><span class="p">(</span><span class="n">input_data</span><span class="p">,</span> <span class="n">vocab_size</span><span class="p">,</span> <span class="n">embed_dim</span><span class="p">)</span>
     <span class="n">outputs</span><span class="p">,</span> <span class="n">final_state</span> <span class="o">=</span> <span class="n">build_rnn</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="n">embed</span><span class="p">)</span>
     <span class="n">logits</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">contrib</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">fully_connected</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">vocab_size</span><span class="p">,</span> <span class="n">activation_fn</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">logits</span><span class="p">,</span> <span class="n">final_state</span>
@@ -12603,13 +12603,13 @@ Barney_Gumble: Yeah, you should only drink to enhance your social skills.
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Number of Epochs</span>
 <span class="n">num_epochs</span> <span class="o">=</span> <span class="mi">50</span>
 <span class="c1"># Batch Size</span>
-<span class="n">batch_size</span> <span class="o">=</span> <span class="mi">128</span>
+<span class="n">batch_size</span> <span class="o">=</span> <span class="mi">256</span>
 <span class="c1"># RNN Size</span>
-<span class="n">rnn_size</span> <span class="o">=</span> <span class="mi">256</span>
+<span class="n">rnn_size</span> <span class="o">=</span> <span class="mi">512</span>
 <span class="c1"># Embedding Dimension Size</span>
 <span class="n">embed_dim</span> <span class="o">=</span> <span class="mi">500</span>
 <span class="c1"># Sequence Length</span>
-<span class="n">seq_length</span> <span class="o">=</span> <span class="mi">15</span>
+<span class="n">seq_length</span> <span class="o">=</span> <span class="mi">11</span>
 <span class="c1"># Learning Rate</span>
 <span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">0.01</span>
 <span class="c1"># Show stats for every n number of batches</span>
@@ -12737,76 +12737,54 @@ Barney_Gumble: Yeah, you should only drink to enhance your social skills.
 <div class="prompt"></div>
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Epoch   0 Batch    0/35   train_loss = 8.821
-Epoch   0 Batch   25/35   train_loss = 6.518
-Epoch   1 Batch   15/35   train_loss = 6.340
-Epoch   2 Batch    5/35   train_loss = 6.270
-Epoch   2 Batch   30/35   train_loss = 6.293
-Epoch   3 Batch   20/35   train_loss = 6.364
-Epoch   4 Batch   10/35   train_loss = 6.412
-Epoch   5 Batch    0/35   train_loss = 6.265
-Epoch   5 Batch   25/35   train_loss = 5.715
-Epoch   6 Batch   15/35   train_loss = 5.467
-Epoch   7 Batch    5/35   train_loss = 5.115
-Epoch   7 Batch   30/35   train_loss = 4.937
-Epoch   8 Batch   20/35   train_loss = 4.884
-Epoch   9 Batch   10/35   train_loss = 4.877
-Epoch  10 Batch    0/35   train_loss = 4.658
-Epoch  10 Batch   25/35   train_loss = 4.443
-Epoch  11 Batch   15/35   train_loss = 4.513
-Epoch  12 Batch    5/35   train_loss = 4.362
-Epoch  12 Batch   30/35   train_loss = 4.316
-Epoch  13 Batch   20/35   train_loss = 4.230
-Epoch  14 Batch   10/35   train_loss = 4.257
-Epoch  15 Batch    0/35   train_loss = 4.126
-Epoch  15 Batch   25/35   train_loss = 3.937
-Epoch  16 Batch   15/35   train_loss = 3.964
-Epoch  17 Batch    5/35   train_loss = 3.901
-Epoch  17 Batch   30/35   train_loss = 3.799
-Epoch  18 Batch   20/35   train_loss = 3.755
-Epoch  19 Batch   10/35   train_loss = 3.771
-Epoch  20 Batch    0/35   train_loss = 3.742
-Epoch  20 Batch   25/35   train_loss = 3.573
-Epoch  21 Batch   15/35   train_loss = 3.528
-Epoch  22 Batch    5/35   train_loss = 3.524
-Epoch  22 Batch   30/35   train_loss = 3.448
-Epoch  23 Batch   20/35   train_loss = 3.368
-Epoch  24 Batch   10/35   train_loss = 3.441
-Epoch  25 Batch    0/35   train_loss = 3.373
-Epoch  25 Batch   25/35   train_loss = 3.233
-Epoch  26 Batch   15/35   train_loss = 3.182
-Epoch  27 Batch    5/35   train_loss = 3.185
-Epoch  27 Batch   30/35   train_loss = 3.222
-Epoch  28 Batch   20/35   train_loss = 3.088
-Epoch  29 Batch   10/35   train_loss = 3.152
-Epoch  30 Batch    0/35   train_loss = 3.115
-Epoch  30 Batch   25/35   train_loss = 2.979
-Epoch  31 Batch   15/35   train_loss = 2.951
-Epoch  32 Batch    5/35   train_loss = 2.940
-Epoch  32 Batch   30/35   train_loss = 2.951
-Epoch  33 Batch   20/35   train_loss = 2.884
-Epoch  34 Batch   10/35   train_loss = 2.910
-Epoch  35 Batch    0/35   train_loss = 2.893
-Epoch  35 Batch   25/35   train_loss = 2.764
-Epoch  36 Batch   15/35   train_loss = 2.746
-Epoch  37 Batch    5/35   train_loss = 2.746
-Epoch  37 Batch   30/35   train_loss = 2.774
-Epoch  38 Batch   20/35   train_loss = 2.706
-Epoch  39 Batch   10/35   train_loss = 2.706
-Epoch  40 Batch    0/35   train_loss = 2.773
-Epoch  40 Batch   25/35   train_loss = 2.666
-Epoch  41 Batch   15/35   train_loss = 2.598
-Epoch  42 Batch    5/35   train_loss = 2.581
-Epoch  42 Batch   30/35   train_loss = 2.623
-Epoch  43 Batch   20/35   train_loss = 2.576
-Epoch  44 Batch   10/35   train_loss = 2.627
-Epoch  45 Batch    0/35   train_loss = 2.591
-Epoch  45 Batch   25/35   train_loss = 2.516
-Epoch  46 Batch   15/35   train_loss = 2.466
-Epoch  47 Batch    5/35   train_loss = 2.463
-Epoch  47 Batch   30/35   train_loss = 2.497
-Epoch  48 Batch   20/35   train_loss = 2.510
-Epoch  49 Batch   10/35   train_loss = 2.517
+<pre>Epoch   0 Batch    0/24   train_loss = 8.825
+Epoch   1 Batch    1/24   train_loss = 4.944
+Epoch   2 Batch    2/24   train_loss = 4.215
+Epoch   3 Batch    3/24   train_loss = 3.709
+Epoch   4 Batch    4/24   train_loss = 3.139
+Epoch   5 Batch    5/24   train_loss = 2.742
+Epoch   6 Batch    6/24   train_loss = 2.465
+Epoch   7 Batch    7/24   train_loss = 2.144
+Epoch   8 Batch    8/24   train_loss = 1.934
+Epoch   9 Batch    9/24   train_loss = 1.762
+Epoch  10 Batch   10/24   train_loss = 1.592
+Epoch  11 Batch   11/24   train_loss = 1.428
+Epoch  12 Batch   12/24   train_loss = 1.307
+Epoch  13 Batch   13/24   train_loss = 1.248
+Epoch  14 Batch   14/24   train_loss = 1.142
+Epoch  15 Batch   15/24   train_loss = 1.035
+Epoch  16 Batch   16/24   train_loss = 1.031
+Epoch  17 Batch   17/24   train_loss = 0.948
+Epoch  18 Batch   18/24   train_loss = 0.913
+Epoch  19 Batch   19/24   train_loss = 0.859
+Epoch  20 Batch   20/24   train_loss = 0.827
+Epoch  21 Batch   21/24   train_loss = 0.746
+Epoch  22 Batch   22/24   train_loss = 0.757
+Epoch  23 Batch   23/24   train_loss = 0.706
+Epoch  25 Batch    0/24   train_loss = 0.733
+Epoch  26 Batch    1/24   train_loss = 0.695
+Epoch  27 Batch    2/24   train_loss = 0.696
+Epoch  28 Batch    3/24   train_loss = 0.691
+Epoch  29 Batch    4/24   train_loss = 0.677
+Epoch  30 Batch    5/24   train_loss = 0.656
+Epoch  31 Batch    6/24   train_loss = 0.639
+Epoch  32 Batch    7/24   train_loss = 0.630
+Epoch  33 Batch    8/24   train_loss = 0.626
+Epoch  34 Batch    9/24   train_loss = 0.633
+Epoch  35 Batch   10/24   train_loss = 0.656
+Epoch  36 Batch   11/24   train_loss = 0.612
+Epoch  37 Batch   12/24   train_loss = 0.623
+Epoch  38 Batch   13/24   train_loss = 0.672
+Epoch  39 Batch   14/24   train_loss = 0.626
+Epoch  40 Batch   15/24   train_loss = 0.666
+Epoch  41 Batch   16/24   train_loss = 0.666
+Epoch  42 Batch   17/24   train_loss = 0.672
+Epoch  43 Batch   18/24   train_loss = 0.649
+Epoch  44 Batch   19/24   train_loss = 0.662
+Epoch  45 Batch   20/24   train_loss = 0.675
+Epoch  46 Batch   21/24   train_loss = 0.645
+Epoch  47 Batch   22/24   train_loss = 0.673
+Epoch  48 Batch   23/24   train_loss = 0.643
 Model Trained and Saved
 </pre>
 </div>
@@ -13061,22 +13039,20 @@ Model Trained and Saved
 <div class="prompt"></div>
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>moe_szyslak: come, coherent!
-homer_simpson: i worry that, each put. they do bart, abe?
-kirk_van_houten: no is funny of you? i&#39;m not good over!
-homer_simpson: mmmm! i&#39;ve got all just old is wiggle-frowns.
-moe_szyslak: tv_daughter: a little tale!
-moe_szyslak: yeah, your meditative sharps.
-homer_simpson: i totally leave the ultimate shot tradition present! and we do anything to over.&#34;
-barney_gumble:(first head) moe, i think about bald.
-marge_simpson: i can close more senators three as these rome!
-homer_simpson:(awkward) oh, thanks?! isotopes i let me the like. where&#39;s a lumpa &#39;cause of arabs.
-moe_szyslak: well, sorry there-- all is the men gus?
-homer_simpson:(to camera) oof, ooh, lenny, i got the new crank weeks.
-moe_szyslak: everybody sure&#34;.
-moe_szyslak:(excited) okay, i know, i&#39;m were seven. i&#39;m really gone!
-announcer: you&#39;re to stop it.
-homer_simpson:(uh)&#34; you know how much
+<pre>moe_szyslak: all right, i ain&#39;t stealin&#39; you from the chinese restaurant of my sisters? hello, now is a good girl, neighbor.
+moe_szyslak: call me dead!(holds up coaster) this coaster&#39;s fine.
+moe_szyslak:(very up.(sighs) woo hoo?
+marge_simpson: i can&#39;t believe you--(lenny and carl, sweetheart...
+moe_szyslak:(sings) yeah, boy. let me nice to meet you.
+homer_simpson: okay, mom. we&#39;re as your kid is still want to go to clean supermodel!
+carl_carlson: so, it&#39;s him some turn bart into the mafia. it all comes here.
+snake_jailbird: moe, you&#39;ve got. somethin&#39; a great guy.
+moe_szyslak: this is one texan who don&#39;t want to charge ya.
+homer_simpson:(sighs) i know how to make you look of your kids.
+barney_gumble: oh! baloney. bread!
+moe_szyslak:(into phone) who he did? you have one of your limits?
+lenny_leonard: are you?
+homer_simpson: no, the president began?
 </pre>
 </div>
 </div>
